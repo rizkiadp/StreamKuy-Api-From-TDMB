@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamKuy - Nonton Film & Anime</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">StreamKuy<span style="color:white">.</span></div>
+        <form action="/search" method="GET" class="search-box">
+            <input type="text" name="q" placeholder="Cari..."
+                value="<%= typeof search !== 'undefined' ? search : '' %>">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
+    </nav>
+
+    <% if (typeof page !=='undefined' && page==='home' && featured) { %>
+        <!-- Hero Section -->
+        <header class="hero"
+            style="background-image: linear-gradient(to top, #0f0f0f, transparent 80%), url('https://image.tmdb.org/t/p/original<%= featured.backdrop_path %>');">
+            <div class="hero-content">
+                <h1>
+                    <%= featured.title %>
+                </h1>
+                <p class="hero-overview">
+                    <%= featured.overview.substring(0, 150) %>...
+                </p>
+                <div class="hero-buttons">
+                    <a href="/watch/movie/<%= featured.id %>" class="btn btn-primary"><i class="fas fa-play"></i> Putar
+                        Sekarang</a>
+                    <button class="btn btn-secondary"><i class="fas fa-info-circle"></i> Selengkapnya</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Genre Categories -->
+        <div class="category-bar">
+            <% genres.slice(0, 10).forEach(g=> { %>
+                <span class="category-chip">
+                    <%= g.name %>
+                </span>
+                <% }) %>
+        </div>
+        <% } %>
+
+            <!-- Main Content -->
+            <main>
+                <% if (typeof search !=='undefined' ) { %>
+                    <!-- Search Results View -->
+                    <h2>Hasil Pencarian: "<%= search %>"</h2>
+                    <div class="grid">
+                        <% movies.forEach(item=> { %>
+                            <% if (item.poster_path) { %>
+                                <a href="/watch/<%= item.media_type === 'tv' ? 'tv' : 'movie' %>/<%= item.id %>"
+                                    class="card">
+                                    <img src="https://image.tmdb.org/t/p/w500<%= item.poster_path %>" loading="lazy"
+                                        alt="<%= item.title %>">
+                                    <div class="card-overlay">
+                                        <i class="fas fa-play-circle"></i>
+                                    </div>
+                                </a>
+                                <% } %>
+                                    <% }) %>
+                    </div>
+                    <% } else { %>
+
+                        <!-- Trending Section (Horizontal Scroll) -->
+                        <section class="movie-section">
+                            <h2 class="section-title">🔥 Trending Minggu Ini</h2>
+                            <div class="scroll-container">
+                                <% trending.forEach(movie=> { %>
+                                    <a href="/watch/movie/<%= movie.id %>" class="card">
+                                        <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
+                                            loading="lazy" alt="<%= movie.title %>">
+                                        <div class="card-info">
+                                            <h3>
+                                                <%= movie.title %>
+                                            </h3>
+                                            <span class="rating"><i class="fas fa-star" style="color:gold"></i>
+                                                <%= movie.vote_average.toFixed(1) %>
+                                            </span>
+                                        </div>
+                                    </a>
+                                    <% }) %>
+                            </div>
+                        </section>
+
+                        <!-- Upcoming Section -->
+                        <section class="movie-section">
+                            <h2 class="section-title">🍿 Segera Tayang</h2>
+                            <div class="scroll-container">
+                                <% upcoming.forEach(movie=> { %>
+                                    <a href="/watch/movie/<%= movie.id %>" class="card">
+                                        <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>"
+                                            loading="lazy" alt="<%= movie.title %>">
+                                        <div class="card-info">
+                                            <h3>
+                                                <%= movie.title %>
+                                            </h3>
+                                        </div>
+                                    </a>
+                                    <% }) %>
+                            </div>
+                        </section>
+
+                        <!-- Anime Section -->
+                        <section class="movie-section">
+                            <h2 class="section-title">⛩️ Anime Pilihan</h2>
+                            <div class="grid small-grid"> <!-- Use Grid for anime to show more -->
+                                <% anime.forEach(show=> { %>
+                                    <a href="/watch/tv/<%= show.id %>" class="card">
+                                        <img src="https://image.tmdb.org/t/p/w500<%= show.poster_path %>" loading="lazy"
+                                            alt="<%= show.name %>">
+                                        <div class="card-info">
+                                            <h3>
+                                                <%= show.name %>
+                                            </h3>
+                                        </div>
+                                    </a>
+                                    <% }) %>
+                            </div>
+                        </section>
+
+                        <% } %>
+            </main>
+
+            <footer>
+                <p>Data Film Diambil Dari TMDB.</p>
+            </footer>
+
+</body>
+
+</html>

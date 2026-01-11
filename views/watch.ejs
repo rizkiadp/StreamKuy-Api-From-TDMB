@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nonton <%= data.title || data.name %>
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo"><a href="/">StreamKuy</a></div>
+    </nav>
+
+    <main class="watch-container">
+        <!-- Video Player -->
+        <div class="iframe-container">
+            <!-- Menggunakan MultiEmbed yang biasanya punya opsi Subtitle/CC lebih banyak -->
+            <iframe
+                src="<%= type === 'movie' ? `https://multiembed.mov/?tmdb=1&video_id=${data.id}` : `https://multiembed.mov/?tmdb=1&video_id=${data.id}&s=1&e=1` %>"
+                frameborder="0" allowfullscreen>
+            </iframe>
+        </div>
+
+        <!-- Movie Info -->
+        <div class="movie-details">
+            <h1>
+                <%= data.title || data.name %>
+            </h1>
+            <p class="tagline">
+                <%= data.tagline %>
+            </p>
+            <div class="meta">
+                <span class="badge">
+                    <%= data.release_date || data.first_air_date %>
+                </span>
+                <span class="badge">⭐ <%= data.vote_average.toFixed(1) %></span>
+                <% if(data.genres) { %>
+                    <% data.genres.forEach(g=> { %>
+                        <span class="genre">
+                            <%= g.name %>
+                        </span>
+                        <% }) %>
+                            <% } %>
+            </div>
+            <p class="overview">
+                <%= data.overview %>
+            </p>
+            <a href="/" class="back-btn">Kembali ke Beranda</a>
+        </div>
+    </main>
+
+</body>
+
+</html>
