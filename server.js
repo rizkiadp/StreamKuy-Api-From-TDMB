@@ -2,11 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const path = require('path');
+
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
@@ -99,6 +100,14 @@ app.get('/watch/tv/:id', async (req, res) => {
 
 
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on port ${PORT}`);
-});
+const PORT = process.env.PORT || 3000;
+
+// Export untuk Vercel
+module.exports = app;
+
+// Listen untuk local development
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
