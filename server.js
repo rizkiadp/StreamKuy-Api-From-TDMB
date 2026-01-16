@@ -2,13 +2,23 @@ require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 
+// Setup views directory
+const viewsPath = path.join(__dirname, 'views');
+const publicPath = path.join(__dirname, 'public');
+
+console.log('Views path:', viewsPath);
+console.log('Views exists:', fs.existsSync(viewsPath));
+console.log('Public path:', publicPath);
+console.log('Public exists:', fs.existsSync(publicPath));
+
 // Middleware
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', viewsPath);
+app.use(express.static(publicPath));
 app.use(express.urlencoded({ extended: true }));
 
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
