@@ -52,4 +52,4 @@ Sebelum memulai, pastikan Anda sudah menginstal:
 ## Kredit
 *   Data Film & Gambar oleh [TMDB](https://www.themoviedb.org/).
 *   Video Player oleh pihak ketiga (Embed sources).
-*   Dibuat untuk tujuan edukasi.
+
